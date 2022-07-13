@@ -1,0 +1,29 @@
+﻿@using McPos.Shared.ViewModels
+<EditForm Model="@Customer" OnValidSubmit="OnSave">
+    <CsValidation @ref="CsValidation" />
+    <DataAnnotationsValidator />
+
+    <div class="form-group mb-3">
+        <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.FullName)"></Label>
+        <InputText id="@nameof(CustomerVM.FullName)" class="form-control auto-focus" maxlength="25" @bind-Value="@Customer.FullName" />
+        <ValidationMessage For="@(() => Customer.FullName )" class="small" />
+    </div>
+
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-fill btn-danger" disabled="@Saving">
+            @if (Saving)
+            {
+                <span><i class="fas fa-sync fa-spin"></i></span>
+            }
+            else
+            {
+                <span>إضافة</span>
+            }
+        </button>
+    </div>
+</EditForm>
+<style>
+    .blazored-modal-header .blazored-modal-title {
+        text-align: center;
+    }
+</style>

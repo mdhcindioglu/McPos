@@ -1,0 +1,21 @@
+﻿@page "/Customers"
+@using McPos.Shared.ViewModels
+
+<div class="card mb-2">
+    <div class="card-body d-flex">
+        <h2 class="mb-0 text-primary d-inline">Customers</h2>
+        <button type="button" class="btn btn-primary ms-auto" @onclick="@(() => OpenCustomerDialog(new CustomerVM()))">Add</button>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body d-flex">
+        @if (response?.Items?.Any() != true)
+        {
+            <p class="mb-0 text-muted">There are no any customers</p>
+        }
+        else
+        {
+
+        }
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+@typeparam TItem
+
+<label for="@Aspfor" class="form-label small @CssClass">@(Text != null ? Text : Aspfor?.GetDisplayName<TItem>())</label>
+
+@code {
+    [Parameter] public string? Aspfor { get; set; }
+    [Parameter] public string? CssClass { get; set; }
+    [Parameter] public string? Text { get; set; }
+
+    string? ForTag => Aspfor;
+}
