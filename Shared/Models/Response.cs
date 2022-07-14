@@ -12,6 +12,7 @@ namespace McPos.Shared.Models
         public bool IsSuccess => Errors?.Any() != true;
         public List<Error>? Errors { get; set; } = new();
         public Error? Error => Errors?.FirstOrDefault();
+        public string? ErrorMessage => Errors?.FirstOrDefault()?.Message;
         public void AddError(Error error) => Errors?.Add(error);
         public void AddError(ResponseCodes code) => Errors?.Add(new Error { Code = code, });
         public void AddError(ResponseCodes code, string message) => Errors?.Add(new Error { Code = code, Message = message, });
@@ -23,9 +24,9 @@ namespace McPos.Shared.Models
 
     public class Error
     {
-        public ResponseCodes? Code { get; set; }
-        public string? CodeName => Code?.ToString();
-        public string? Message { get; set; } = string.Empty;
+        public ResponseCodes Code { get; set; } = ResponseCodes.Failed;
+        public string? CodeName => Code.ToString();
+        public string? Message { get; set; } 
     }
 
     public enum ResponseCodes

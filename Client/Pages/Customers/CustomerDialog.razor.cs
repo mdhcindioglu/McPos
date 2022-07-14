@@ -25,7 +25,6 @@ namespace McPos.Client.Pages.Customers
 
         async void OnSave()
         {
-                    ToastSrv.ShowError("فشلت عملية الإضافة");
             Saving = true;
 
             var errors = new Dictionary<string, List<string>>();
@@ -43,8 +42,8 @@ namespace McPos.Client.Pages.Customers
                 CsValidation.DisplayErrors(errors);
             else
             {
-                Response<CustomerVM> responseCustomer; 
-                if(Customer.Id == 0)
+                Response<CustomerVM> responseCustomer;
+                if (Customer.Id == 0)
                     responseCustomer = await CustomerSrv.CreateCustomer(Customer);
                 else
                     responseCustomer = await CustomerSrv.UpdateCustomer(Customer);
@@ -54,10 +53,11 @@ namespace McPos.Client.Pages.Customers
                     await ModalInstance.CloseAsync(ModalResult.Ok(response.Data));
                 }
                 else
-                    ToastSrv.ShowError("فشلت عملية الإضافة");
+                    ToastSrv.ShowError($"Failed to {(Customer.Id == 0 ? "Adding" : "Updating")} customer.");
             }
 
             Saving = false;
+            StateHasChanged();
         }
 
         async void CloseDialog()

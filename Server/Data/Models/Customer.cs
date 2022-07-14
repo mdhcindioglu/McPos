@@ -18,6 +18,6 @@ namespace McPos.Server.Data.Models
         public string? City { get; set; }
         public string? Country { get; set; }
 
-        public List<Order>? Orders { get; set; }
+        public List<Order>? Orders { get; set; } = new();
     }
 }

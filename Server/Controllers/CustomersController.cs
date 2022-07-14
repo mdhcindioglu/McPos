@@ -31,7 +31,7 @@ namespace McPos.Server.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult> GetAll(int curpage, string? orderby, int skip, int take, string? search = null)
+        public async Task<ActionResult> GetAll(int curpage = 1, string? orderby = "Id", int skip = 0, int take = 25, string? search = null)
         {
             var response = new Response<PagedList<CustomerVM>>() { Data = new() { Items = new(), }, };
 
@@ -61,7 +61,7 @@ namespace McPos.Server.Controllers
             return Ok(response);
         }
 
-        [HttpGet("GetCustomer       ")]
+        [HttpGet("GetCustomer")]
         public async Task<ActionResult> GetCustomer(int id)
         {
             var response = new Response<CustomerVM>();
@@ -113,13 +113,34 @@ namespace McPos.Server.Controllers
                 Customer customer = _mapper.Map<Customer>(customerVM);
                 _db.Customers.Update(customer);
                 await _db.SaveChangesAsync();
-                
+
                 response.Data = customerVM;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Failed update customer");
                 response.AddError(ResponseCodes.Failed, $"Failed update customer");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteCustomer(int id)
+        {
+            var response = new Response();
+
+            try
+            {
+                var customer = await _db.Customers.FirstOrDefaultAsync(x=>x.Id == id);
+                if(customer != null)
+                _db.Customers.Remove(customer);
+                await _db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed delete customer");
+                response.AddError(ResponseCodes.Failed, $"Failed delete customer");
             }
 
             return Ok(response);

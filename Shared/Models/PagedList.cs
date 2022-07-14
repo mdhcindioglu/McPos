@@ -15,7 +15,7 @@ namespace McPos.Shared.Models
         public bool IsLastPage { get; set; }
         public bool IsFirstPage { get; set; }
         public string? Details { get; set; }
-
+        
         public int Pagination(int take, int curPage, string search)
         {
             Pages = Convert.ToInt32(Math.Ceiling((double)SelectedCount / (double)take));
