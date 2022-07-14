@@ -46,7 +46,7 @@ namespace McPos.Server.Controllers
                     customers = customers?.Where(x => x.FullName.Contains(search));
 
                 response.Data.SelectedCount = await customers?.CountAsync();
-                
+
                 customers = customers.OrderBy(orderby);
                 skip = response.Data.Pagination(take, curpage, search);
 
@@ -56,6 +56,88 @@ namespace McPos.Server.Controllers
             {
                 _logger.LogError(ex, "Failed get all customers");
                 response.AddError(ResponseCodes.Failed, "Failed get all customers");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("GetCustomer       ")]
+        public async Task<ActionResult> GetCustomer(int id)
+        {
+            var response = new Response<CustomerVM>();
+
+            try
+            {
+                response.Data = await _db.Customers.ProjectTo<CustomerVM>(_mapper.ConfigurationProvider).FirstOrDefaultAsync(x => x.Id == id);
+                if (response.Data == null)
+                    response.AddError(ResponseCodes.NotFound);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed get customer id = {id}");
+                response.AddError(ResponseCodes.Failed, $"Failed get customer id = {id}");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateCustomer(CustomerVM customerVM)
+        {
+            var response = new Response<CustomerVM>();
+
+            try
+            {
+                Customer customer = _mapper.Map<Customer>(customerVM);
+                var entity = await _db.Customers.AddAsync(customer);
+                await _db.SaveChangesAsync();
+
+                response.Data = _mapper.Map<CustomerVM>(entity.Entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed create customer");
+                response.AddError(ResponseCodes.Failed, $"Failed create customer");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateCustomer(CustomerVM customerVM)
+        {
+            var response = new Response<CustomerVM>();
+
+            try
+            {
+                Customer customer = _mapper.Map<Customer>(customerVM);
+                _db.Customers.Update(customer);
+                await _db.SaveChangesAsync();
+                
+                response.Data = customerVM;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed update customer");
+                response.AddError(ResponseCodes.Failed, $"Failed update customer");
+            }
+
+            return Ok(response);
+        }
+
+        [HttpGet("IsFullNameAdded")]
+        public async Task<ActionResult> IsFullNameAdded(string FullName, int Id = 0)
+        {
+            var response = new Response<bool>();
+
+            try
+            {
+                response.Data = await _db.Customers.AnyAsync(x=>x.FullName == FullName && x.Id != Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed check customer full name exists.");
+                response.AddError(ResponseCodes.Failed, "Failed check customer full name exists.");
             }
 
             return Ok(response);

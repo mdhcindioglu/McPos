@@ -3,27 +3,60 @@
     <CsValidation @ref="CsValidation" />
     <DataAnnotationsValidator />
 
-    <div class="form-group mb-3">
-        <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.FullName)"></Label>
-        <InputText id="@nameof(CustomerVM.FullName)" class="form-control auto-focus" maxlength="25" @bind-Value="@Customer.FullName" />
-        <ValidationMessage For="@(() => Customer.FullName )" class="small" />
+    <div class="dialog-bg p-3 border-top border-bottom">
+        <div class="form-group mb-2">
+            <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.FullName)"></Label>
+            <InputText id="@nameof(CustomerVM.FullName)" class="form-control auto-focus" maxlength="50" @bind-Value="@Customer.FullName" />
+            <ValidationMessage For="@(() => Customer.FullName )" class="small" />
+        </div>
+
+
+        <div class="form-group mb-2">
+            <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.Address1)"></Label>
+            <InputText @bind-Value="@Customer.Address1" class="form-control" maxlength="100" />
+        </div>
+
+        <div class="form-group mb-2">
+            <InputText @bind-Value="@Customer.Address2" class="form-control" maxlength="100" />
+        </div>
+
+        <div class="d-flex mb-2">
+            <div class="form-group me-2">
+                <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.County)"></Label>
+                <InputText @bind-Value="@Customer.County" class="form-control" maxlength="50" />
+            </div>
+
+            <div class="form-group">
+                <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.City)"></Label>
+                <InputText @bind-Value="@Customer.City" class="form-control" maxlength="50" />
+            </div>
+        </div>
+
+        <div class="d-flex mb-2">
+            <div class="form-group me-2">
+                <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.Country)"></Label>
+                <InputText @bind-Value="@Customer.Country" class="form-control" maxlength="50" />
+            </div>
+            <div class="form-group">
+                <Label TItem="CustomerVM" aspfor="@nameof(CustomerVM.PhoneNumber)"></Label>
+                <InputText @bind-Value="@Customer.PhoneNumber" class="form-control" maxlength="25" />
+            </div>
+        </div>
     </div>
 
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-fill btn-danger" disabled="@Saving">
+    <div class="d-flex p-3 dialog-bg">
+        <button class="btn w-50 btn-secondary me-2" @onclick="@CloseDialog" type="button">Cancel</button>
+        <button type="submit" class="btn w-50 btn-primary" disabled="@Saving">
             @if (Saving)
             {
                 <span><i class="fas fa-sync fa-spin"></i></span>
             }
             else
             {
-                <span>إضافة</span>
+                <span>Save</span>   
             }
         </button>
     </div>
 </EditForm>
 <style>
-    .blazored-modal-header .blazored-modal-title {
-        text-align: center;
-    }
 </style>

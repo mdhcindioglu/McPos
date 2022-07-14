@@ -11,11 +11,31 @@
     <div class="card-body d-flex">
         @if (response?.Items?.Any() != true)
         {
-            <p class="mb-0 text-muted">There are no any customers</p>
+            <p class="mb-0 text-muted">There are no customers</p>
         }
         else
         {
-
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Country</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in response.Items)
+                    {
+                        <tr>
+                            <td>@item.Id.ToString("N0")</td>
+                            <td>@item.FullName</td>
+                            <td>@item.Country</td>
+                            <td>@item.PhoneNumber</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
     </div>
 </div>

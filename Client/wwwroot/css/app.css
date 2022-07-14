@@ -1,7 +1,10 @@
-﻿
+﻿:root {
+    --body-bg-color: rgb(241 241 241);
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: #e9ebfb;
+    background-color: var(--body-bg-color);
 }
 
 h1:focus {
@@ -62,3 +65,28 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.blazored-modal {
+    padding: 0;
+    border: unset;
+    overflow: hidden;
+}
+
+    .blazored-modal .dialog-bg {
+        background-color: var(--body-bg-color);
+    }
+
+.blazored-modal-header {
+    padding: 1rem;
+    background-color: var(--bs-primary);
+    color: white;
+}
+
+    .blazored-modal-header .blazored-modal-title {
+        margin: 0 auto;
+    }
+
+.form-control:focus,
+.btn-check:focus + .btn, .btn:focus {
+    box-shadow: unset;
+}
