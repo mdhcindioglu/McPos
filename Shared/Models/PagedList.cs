@@ -15,7 +15,7 @@ namespace McPos.Shared.Models
         public bool IsLastPage { get; set; }
         public bool IsFirstPage { get; set; }
         public string? Details { get; set; }
-        
+
         public int Pagination(int take, int curPage, string search)
         {
             Pages = Convert.ToInt32(Math.Ceiling((double)SelectedCount / (double)take));
@@ -39,5 +39,30 @@ namespace McPos.Shared.Models
 
             return (curPage - 1) * take;
         }
+
+        public List<PageButton> PageButtons
+        {
+            get
+            {
+                var pageButtons = new List<PageButton>();
+                for (int i = 0; i < Pages; i++)
+                    pageButtons.Add(new PageButton { Title = i + 1, });
+
+                if()
+
+                return pageButtons;
+            }
+        }
+
+    }
+
+    public class PageButton
+    {
+        public bool IsCurrentPage { get; set; }
+        public bool IsLastPage { get; set; }
+        public bool Visible { get; set; }
+        public bool Enable { get; set; }
+        public int Title { get; set; }
+        public bool IsFirstPage { get; set; }
     }
 }
